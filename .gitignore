@@ -1,0 +1,14 @@
+.classpath
+.project
+.settings
+.idea
+.DS_Store
+build/
+coefficients.bin
+conf.json
+.gradle/
+bin/
+out/
+.env
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties

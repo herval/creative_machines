@@ -1,0 +1,10 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'docker'
+
+mainClassName = 'hervalicious.haikuzao.BotRunner'
+
+dependencies {
+    compile project(":commons")
+}

@@ -1,0 +1,3 @@
+rootProject.name = 'creative_machines'
+
+include 'commons', 'dictiowat', 'unforgiven-swift', 'markovian-writer', 'haikuzao'
