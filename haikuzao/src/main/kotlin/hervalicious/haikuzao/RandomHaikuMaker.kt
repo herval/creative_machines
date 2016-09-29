@@ -5,7 +5,7 @@ import hervalicious.twitter.TweetMaker
 
 class RandomHaikuMaker(val extractor: Extractor, val dictionary: Set<String>) : TweetMaker {
     private val sequenceSize = 800
-    private val maxTries = 4
+    private val maxTries = 8
 
     // sample a Haiku from the network
     override fun sample(): String {

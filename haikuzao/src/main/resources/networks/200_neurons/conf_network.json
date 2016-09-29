@@ -1,0 +1,150 @@
+{
+  "backprop" : true,
+  "backpropType" : "Standard",
+  "confs" : [ {
+    "batchSize" : 1,
+    "constrainGradientToUnitNorm" : false,
+    "layer" : {
+      "gravesLSTM" : {
+        "activationFunction" : "sigmoid",
+        "adamMeanDecay" : 0.9,
+        "adamVarDecay" : 0.999,
+        "biasInit" : 0.0,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "forgetGateBiasInit" : 1.0,
+        "gradientNormalization" : "None",
+        "gradientNormalizationThreshold" : 1.0,
+        "l1" : 0.0,
+        "l2" : 0.001,
+        "learningRate" : 9.999998484272607E-32,
+        "learningRateAfter" : { },
+        "lrScoreBasedDecay" : 0.0,
+        "momentum" : 0.5,
+        "momentumAfter" : { },
+        "nin" : 77,
+        "nout" : 200,
+        "rho" : 0.0,
+        "rmsDecay" : 0.95,
+        "updater" : "RMSPROP",
+        "weightInit" : "DISTRIBUTION"
+      }
+    },
+    "maxNumLineSearchIterations" : 5,
+    "miniBatch" : true,
+    "minimize" : true,
+    "numIterations" : 1,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "seed" : 1462804952833,
+    "stepFunction" : null,
+    "timeSeriesLength" : 1,
+    "useDropConnect" : false,
+    "useRegularization" : true,
+    "useSchedules" : false,
+    "variables" : [ "W", "RW", "b" ]
+  }, {
+    "batchSize" : 1,
+    "constrainGradientToUnitNorm" : false,
+    "layer" : {
+      "gravesLSTM" : {
+        "activationFunction" : "sigmoid",
+        "adamMeanDecay" : 0.9,
+        "adamVarDecay" : 0.999,
+        "biasInit" : 0.0,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "forgetGateBiasInit" : 1.0,
+        "gradientNormalization" : "None",
+        "gradientNormalizationThreshold" : 1.0,
+        "l1" : 0.0,
+        "l2" : 0.001,
+        "learningRate" : 9.999998484272607E-32,
+        "learningRateAfter" : { },
+        "lrScoreBasedDecay" : 0.0,
+        "momentum" : 0.5,
+        "momentumAfter" : { },
+        "nin" : 200,
+        "nout" : 200,
+        "rho" : 0.0,
+        "rmsDecay" : 0.95,
+        "updater" : "RMSPROP",
+        "weightInit" : "DISTRIBUTION"
+      }
+    },
+    "maxNumLineSearchIterations" : 5,
+    "miniBatch" : true,
+    "minimize" : true,
+    "numIterations" : 1,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "seed" : 1462804952833,
+    "stepFunction" : null,
+    "timeSeriesLength" : 1,
+    "useDropConnect" : false,
+    "useRegularization" : true,
+    "useSchedules" : false,
+    "variables" : [ "W", "RW", "b" ]
+  }, {
+    "batchSize" : 1,
+    "constrainGradientToUnitNorm" : false,
+    "layer" : {
+      "rnnoutput" : {
+        "activationFunction" : "softmax",
+        "adamMeanDecay" : 0.9,
+        "adamVarDecay" : 0.999,
+        "biasInit" : 0.0,
+        "customLossFunction" : null,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "gradientNormalization" : "None",
+        "gradientNormalizationThreshold" : 1.0,
+        "l1" : 0.0,
+        "l2" : 0.001,
+        "learningRate" : 9.999998484272607E-32,
+        "learningRateAfter" : { },
+        "lossFunction" : "MCXENT",
+        "lrScoreBasedDecay" : 0.0,
+        "momentum" : 0.5,
+        "momentumAfter" : { },
+        "nin" : 200,
+        "nout" : 77,
+        "rho" : 0.0,
+        "rmsDecay" : 0.95,
+        "updater" : "RMSPROP",
+        "weightInit" : "DISTRIBUTION"
+      }
+    },
+    "maxNumLineSearchIterations" : 5,
+    "miniBatch" : true,
+    "minimize" : true,
+    "numIterations" : 1,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "seed" : 1462804952833,
+    "stepFunction" : null,
+    "timeSeriesLength" : 1,
+    "useDropConnect" : false,
+    "useRegularization" : true,
+    "useSchedules" : false,
+    "variables" : [ "W", "b" ]
+  } ],
+  "dampingFactor" : 100.0,
+  "inputPreProcessors" : { },
+  "pretrain" : false,
+  "redistributeParams" : false,
+  "tbpttBackLength" : 20,
+  "tbpttFwdLength" : 20
+}
