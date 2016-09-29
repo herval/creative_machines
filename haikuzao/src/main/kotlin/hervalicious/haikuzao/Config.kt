@@ -22,10 +22,10 @@ import java.util.*
 object Config : hervalicious.twitter.Config {
     private val conf = hervalicious.util.Config()
 
-    override val accessToken = conf.get("TWITTER_ACCESS_TOKEN")
-    override val accessTokenSecret = conf.get("TWITTER_ACCESS_TOKEN_SECRET")
-    override val consumerSecret = conf.get("TWITTER_CONSUMER_SECRET")
-    override val consumerToken = conf.get("TWITTER_CONSUMER_TOKEN")
+    override val accessToken: String by lazy { conf.get("TWITTER_ACCESS_TOKEN") }
+    override val accessTokenSecret: String by lazy { conf.get("TWITTER_ACCESS_TOKEN_SECRET") }
+    override val consumerSecret: String by lazy { conf.get("TWITTER_CONSUMER_SECRET") }
+    override val consumerToken: String by lazy { conf.get("TWITTER_CONSUMER_TOKEN") }
     override val sleepInterval = 60 * 60 * 1000L
 
     val rawContent = Paths.get("haikuzao/src/main/resources/haiku.txt")
@@ -34,46 +34,45 @@ object Config : hervalicious.twitter.Config {
 
     val networkPath = Paths.get("haikuzao/src/main/resources/networks/200_neurons")
 
-    val defaultCharacterMap = CharacterMap.defaultCharacterMap
+    val defaultCharacterMap = CharacterMap.minimalCharacterMap
 
     fun defaultTopology(characterMap: CharacterMap = defaultCharacterMap): Network {
-        val config = NeuralNetConfiguration.Builder()
-                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .iterations(1)
-                .learningRate(0.002)
-                .rmsDecay(0.97)
-                .regularization(true)
-                .l2(0.001)
-                .list(4)
-                .layer(0, GravesLSTM.Builder()
-                        .nIn(characterMap.size())
-                        .nOut(layerSize)
-                        .updater(Updater.RMSPROP)
-                        .activation("tanh")
-                        .weightInit(WeightInit.DISTRIBUTION)
-                        .dist(UniformDistribution(-0.08, 0.08))
-                        .build())
-                .layer(1, GravesLSTM.Builder()
-                        .nIn(layerSize)
-                        .nOut(layerSize)
-                        .updater(Updater.RMSPROP)
-                        .activation("tanh")
-                        .weightInit(WeightInit.DISTRIBUTION)
-                        .dist(UniformDistribution(-0.08, 0.08))
-                        .build())
-                .layer(2, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT)
-                        .activation("softmax") //MCXENT + softmax for classification
-                        .updater(Updater.RMSPROP)
-                        .nIn(layerSize)
-                        .nOut(characterMap.size())
-                        .weightInit(WeightInit.DISTRIBUTION)
-                        .dist(UniformDistribution(-0.08, 0.08))
-                        .build())
-                .pretrain(false)
-                .backprop(true)
-                .build()
+        val config = NeuralNetConfiguration.Builder().
+                optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
+                iterations(1).
+                learningRate(0.002).
+                rmsDecay(0.97).
+                regularization(true).
+                l2(0.001).
+                list(3).
+                layer(0, GravesLSTM.Builder().
+                        nIn(characterMap.size()).
+                        nOut(layerSize).
+                        updater(Updater.RMSPROP).
+                        activation("tanh").
+                        weightInit(WeightInit.DISTRIBUTION).
+                        dist(UniformDistribution(-0.08, 0.08)).
+                        build()).
+                layer(1, GravesLSTM.Builder().
+                        nIn(layerSize).
+                        nOut(layerSize).
+                        updater(Updater.RMSPROP).
+                        activation("tanh").
+                        weightInit(WeightInit.DISTRIBUTION).
+                        dist(UniformDistribution(-0.08, 0.08)).
+                        build()).
+                layer(2, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT).
+                        activation("softmax"). //MCXENT + softmax for classification
+                        updater(Updater.RMSPROP).
+                        nIn(layerSize).
+                        nOut(characterMap.size()).
+                        weightInit(WeightInit.DISTRIBUTION).
+                        dist(UniformDistribution(-0.08, 0.08)).
+                        build()).
+                pretrain(false).
+                backprop(true)
 
-        val model = MultiLayerNetwork(config)
+        val model = MultiLayerNetwork(config.build())
         model.init()
 
         return Network(model, characterMap)

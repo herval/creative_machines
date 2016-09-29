@@ -1,9 +1,11 @@
 package hervalicious.haikuzao
 
 import hervalicious.ai.rnn.Extractor
+import hervalicious.ai.rnn.Loader
+import hervalicious.ai.rnn.NetworkManager
 import hervalicious.twitter.TweetMaker
 
-class RandomHaikuMaker(val extractor: Extractor, val dictionary: Set<String>) : TweetMaker {
+class RandomHaikuMaker(private val extractor: Extractor, private val dictionary: Set<String>) : TweetMaker {
     private val sequenceSize = 800
     private val maxTries = 8
 
@@ -38,5 +40,22 @@ class RandomHaikuMaker(val extractor: Extractor, val dictionary: Set<String>) : 
                 .split(" ")
                 .filterNot { it.isEmpty() }
                 .count { w -> !dictionary.contains(w.toLowerCase()) }
+    }
+
+
+    companion object {
+
+        fun build(c: Config): RandomHaikuMaker {
+            val network = NetworkManager.defaultConfig(
+                    c.networkPath,
+                    c.defaultTopology()
+            ).load()
+
+            val data = Loader(listOf(Config.rawContent.toFile()), network.characterMap()).contents
+            val dictionary = data.map { l -> l.split(" ") }.flatten().map { w -> w.toLowerCase() }.toSet()
+
+            return RandomHaikuMaker(Extractor(network), dictionary)
+        }
+
     }
 }

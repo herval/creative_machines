@@ -13,19 +13,9 @@ class BotRunner {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-
-            val network = NetworkManager.defaultConfig(
-                    Config.networkPath,
-                    Config.defaultTopology()
-            ).load()
-
-            val data = Loader(listOf(Config.rawContent.toFile()), network.characterMap()).contents
-            val dictionary = data.map { l -> l.split(" ") }.flatten().map { w -> w.toLowerCase() }.toSet()
-
-
             val bot = TwitterBot(
                     Config,
-                    RandomHaikuMaker(Extractor(network), dictionary)
+                    RandomHaikuMaker.build(Config)
             )
 
             val proc = Thread(bot)

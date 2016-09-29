@@ -2,6 +2,7 @@ package hervalicious.util
 
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.util.*
 
 /**
@@ -14,9 +15,14 @@ class Config(envFile: File? = File(".env")) {
     val env: Map<String, String> by lazy {
         if (envFile != null) {
             val prop = Properties()
-            FileInputStream(envFile).use {
-                prop.load(it)
+            try {
+                FileInputStream(envFile).use {
+                    prop.load(it)
+                }
+            } catch (e: FileNotFoundException) {
+                println("*** Env file not found: ${envFile.absolutePath} ***")
             }
+
             prop.entries.map { e -> e.key.toString() to e.value.toString() }.toMap()
         } else {
             emptyMap<String, String>()
