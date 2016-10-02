@@ -1,17 +1,10 @@
 package hervalicious.ai.rnn
 
-import java.io.IOException
-import java.util.Arrays
-import java.util.NoSuchElementException
-import java.util.Random
-
 import org.deeplearning4j.datasets.iterator.DataSetIterator
-import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.dataset.api.DataSetPreProcessor
 import org.nd4j.linalg.factory.Nd4j
-
-import hervalicious.ai.rnn.CharacterMap
+import java.util.*
 
 /**
  * A very simple DataSetIterator for use in the GravesLSTMCharModellingExample.
@@ -108,7 +101,7 @@ class CharacterIterator(
 
         //Randomly select a subset of the file. No attempt is made to avoid overlapping subsets
         // of the file in the same minibatch
-        for (i in 0..num - 1) {
+        for (i in 0..(num - 1)) {
             var startIdx = (rng.nextDouble() * maxStartIdx).toInt()
             var endIdx = startIdx + exampleLength
             var scanLength = 0

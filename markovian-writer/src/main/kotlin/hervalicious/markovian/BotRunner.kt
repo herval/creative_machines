@@ -1,8 +1,6 @@
-package hervalicious.haikuzao
+package hervalicious.markovian
 
-import hervalicious.ai.rnn.Extractor
-import hervalicious.ai.rnn.Loader
-import hervalicious.ai.rnn.NetworkManager
+import hervalicious.markovian.text.Writer
 import hervalicious.twitter.Bot
 
 
@@ -13,9 +11,10 @@ class BotRunner {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
+
             val bot = Bot(
                     Config,
-                    RandomHaikuMaker.build(Config)
+                    Writer()
             )
 
             val proc = Thread(bot)

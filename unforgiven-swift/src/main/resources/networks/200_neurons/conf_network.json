@@ -1,0 +1,138 @@
+{
+  "confs" : [ {
+    "lr" : 0.1,
+    "numIterations" : 1,
+    "momentum" : 0.5,
+    "l2" : 0.001,
+    "useRegularization" : true,
+    "momentumAfter" : null,
+    "maxNumLineSearchIterations" : 5,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "constrainGradientToUnitNorm" : false,
+    "rho" : 0.0,
+    "seed" : 12345,
+    "stepFunction" : null,
+    "layer" : {
+      "gravesLSTM" : {
+        "activationFunction" : "tanh",
+        "weightInit" : "DISTRIBUTION",
+        "biasInit" : 0.0,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "updater" : "RMSPROP",
+        "l1" : "NaN",
+        "l2" : "NaN",
+        "lr" : "NaN",
+        "forgetGateBiasInit" : 1.0,
+        "nin" : 77,
+        "nout" : 150
+      }
+    },
+    "variables" : [ "W", "RW", "b" ],
+    "useDropConnect" : false,
+    "timeSeriesLength" : 1,
+    "batchSize" : 100,
+    "minimize" : false,
+    "l1" : 0.0,
+    "rmsDecay" : 0.95,
+    "miniBatch" : true
+  }, {
+    "lr" : 0.1,
+    "numIterations" : 1,
+    "momentum" : 0.5,
+    "l2" : 0.001,
+    "useRegularization" : true,
+    "momentumAfter" : null,
+    "maxNumLineSearchIterations" : 5,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "constrainGradientToUnitNorm" : false,
+    "rho" : 0.0,
+    "seed" : 12345,
+    "stepFunction" : null,
+    "layer" : {
+      "gravesLSTM" : {
+        "activationFunction" : "tanh",
+        "weightInit" : "DISTRIBUTION",
+        "biasInit" : 0.0,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "updater" : "RMSPROP",
+        "l1" : "NaN",
+        "l2" : "NaN",
+        "lr" : "NaN",
+        "forgetGateBiasInit" : 1.0,
+        "nin" : 150,
+        "nout" : 150
+      }
+    },
+    "variables" : [ "W", "RW", "b" ],
+    "useDropConnect" : false,
+    "timeSeriesLength" : 1,
+    "batchSize" : 100,
+    "minimize" : false,
+    "l1" : 0.0,
+    "rmsDecay" : 0.95,
+    "miniBatch" : true
+  }, {
+    "lr" : 0.1,
+    "numIterations" : 1,
+    "momentum" : 0.5,
+    "l2" : 0.001,
+    "useRegularization" : true,
+    "momentumAfter" : null,
+    "maxNumLineSearchIterations" : 5,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "constrainGradientToUnitNorm" : false,
+    "rho" : 0.0,
+    "seed" : 12345,
+    "stepFunction" : null,
+    "layer" : {
+      "rnnoutput" : {
+        "activationFunction" : "softmax",
+        "weightInit" : "DISTRIBUTION",
+        "biasInit" : 0.0,
+        "dist" : {
+          "uniform" : {
+            "lower" : -0.08,
+            "upper" : 0.08
+          }
+        },
+        "dropOut" : 0.0,
+        "updater" : "RMSPROP",
+        "l1" : "NaN",
+        "l2" : "NaN",
+        "lr" : "NaN",
+        "lossFunction" : "MCXENT",
+        "customLossFunction" : null,
+        "nin" : 150,
+        "nout" : 77
+      }
+    },
+    "variables" : [ "W", "b" ],
+    "useDropConnect" : false,
+    "timeSeriesLength" : 1,
+    "batchSize" : 100,
+    "minimize" : false,
+    "l1" : 0.0,
+    "rmsDecay" : 0.95,
+    "miniBatch" : true
+  } ],
+  "pretrain" : false,
+  "dampingFactor" : 100.0,
+  "inputPreProcessors" : { },
+  "backprop" : true,
+  "backpropType" : "Standard",
+  "tbpttFwdLength" : 20,
+  "tbpttBackLength" : 20,
+  "redistributeParams" : false
+}

@@ -3,7 +3,7 @@ package hervalicious.twitter
 /**
  * Created by herval on 9/27/16.
  */
-class TwitterBot(config: Config, val tweeter: TweetMaker) : Runnable {
+class Bot(config: Config, val tweeter: TweetMaker) : Runnable {
     private val client = Client(config.consumerToken, config.consumerSecret, config.accessToken, config.accessTokenSecret)
     private val sleepInterval = config.sleepInterval
 

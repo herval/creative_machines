@@ -32,6 +32,9 @@ class NetworkManager(
         model.setParameters(newParams)
 
         network = Network(model, network.characterMap)
+
+        println("Loaded network from file")
+
         return this
     }
 

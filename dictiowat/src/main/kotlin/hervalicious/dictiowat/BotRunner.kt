@@ -2,7 +2,7 @@ package hervalicious.dictiowat
 
 import hervalicious.ai.rnn.Extractor
 import hervalicious.ai.rnn.NetworkManager
-import hervalicious.twitter.TwitterBot
+import hervalicious.twitter.Bot
 
 
 /**
@@ -18,7 +18,7 @@ class BotRunner {
                     Config.defaultTopology()
             ).load()
 
-            val bot = TwitterBot(
+            val bot = Bot(
                     Config,
                     ArticleWriter(Extractor(network))
             )

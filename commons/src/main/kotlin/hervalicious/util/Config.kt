@@ -3,6 +3,9 @@ package hervalicious.util
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
+import java.net.URI
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.*
 
 /**
@@ -11,6 +14,10 @@ import java.util.*
  * Created by herval on 9/25/16.
  */
 class Config(envFile: File? = File(".env")) {
+
+    fun resource(name: String): Path {
+        return Paths.get(javaClass.getResource(name).toURI())
+    }
 
     val env: Map<String, String> by lazy {
         if (envFile != null) {

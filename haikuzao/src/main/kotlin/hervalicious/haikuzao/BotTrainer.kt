@@ -16,7 +16,7 @@ object BotTrainer {
 
         Trainer(
                 network,
-                Loader(listOf(Config.rawContent.toFile()), network.characterMap())
+                Loader(listOf(Config.rawContent), network.characterMap())
         ).run()
     }
 }

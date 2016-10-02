@@ -1,4 +1,4 @@
-package hervalicious.dictiowat
+package hervalicious.unforgiven
 
 import hervalicious.ai.rnn.Loader
 import hervalicious.ai.rnn.NetworkManager
@@ -10,8 +10,8 @@ import hervalicious.ai.rnn.Trainer
 object BotTrainer {
     @JvmStatic fun main(args: Array<String>) {
         val network = NetworkManager.defaultConfig(
-                hervalicious.dictiowat.Config.networkPath,
-                hervalicious.dictiowat.Config.defaultTopology(hervalicious.dictiowat.Config.defaultCharacterMap)
+                Config.networkPath,
+                Config.defaultTopology(Config.defaultCharacterMap)
         )
 
         Trainer(

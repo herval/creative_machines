@@ -19,20 +19,13 @@ import java.util.*
 /**
  * Created by herval on 10/31/15.
  */
-object Config : hervalicious.twitter.Config {
-    private val conf = hervalicious.util.Config()
+object Config : hervalicious.twitter.Config() {
 
-    override val accessToken: String by lazy { conf.get("TWITTER_ACCESS_TOKEN") }
-    override val accessTokenSecret: String by lazy { conf.get("TWITTER_ACCESS_TOKEN_SECRET") }
-    override val consumerSecret: String by lazy { conf.get("TWITTER_CONSUMER_SECRET") }
-    override val consumerToken: String by lazy { conf.get("TWITTER_CONSUMER_TOKEN") }
-    override val sleepInterval = 60 * 60 * 1000L
+    val rawContent = conf.resource("/haiku.txt").toFile()
 
-    val rawContent = Paths.get("haikuzao/src/main/resources/haiku.txt")
+    val networkPath = conf.resource("/networks/200_neurons")
 
     val layerSize = 200
-
-    val networkPath = Paths.get("haikuzao/src/main/resources/networks/200_neurons")
 
     val defaultCharacterMap = CharacterMap.minimalCharacterMap
 

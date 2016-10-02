@@ -1,4 +1,4 @@
-package hervalicious.dictiowat
+package hervalicious.unforgiven
 
 import hervalicious.ai.rnn.CharacterMap
 import hervalicious.ai.rnn.Network
@@ -19,55 +19,58 @@ import java.util.*
 /**
  * Created by herval on 10/31/15.
  */
-object Config : hervalicious.twitter.Config() {
+object Config : hervalicious.tumblr.Config() {
 
-    val rawContent = conf.resource("/dictionary.txt").toFile()
+    val rawContent = conf.resource("/lyrics.txt").toFile()
 
     val networkPath = conf.resource("/networks/200_neurons")
 
-    val defaultCharacterMap = CharacterMap.defaultCharacterMap
+    val titleFiles = listOf(
+            conf.resource("/metallica_titles.txt").toFile(),
+            conf.resource("/taylor_swift_titles.txt").toFile()
+    )
+
+    val layerSize = 200
+
+    val defaultCharacterMap = CharacterMap.minimalCharacterMap
 
     fun defaultTopology(characterMap: CharacterMap = defaultCharacterMap): Network {
-        val LAYER_SIZE = 200 //Number of units in each GravesLSTM layer
-
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
                 iterations(1).
-                learningRate(0.01).
+                learningRate(0.002).
                 rmsDecay(0.97).
-                seed(12345).
                 regularization(true).
-                l1(0.001).
+                l2(0.001).
                 list(3).
                 layer(0, GravesLSTM.Builder().
                         nIn(characterMap.size()).
-                        nOut(LAYER_SIZE).
+                        nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
                 layer(1, GravesLSTM.Builder().
-                        nIn(LAYER_SIZE).
-                        nOut(LAYER_SIZE).
+                        nIn(layerSize).
+                        nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
                 layer(2, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT).
-                        activation("softmax").//MCXENT + softmax for classification
+                        activation("softmax"). //MCXENT + softmax for classification
                         updater(Updater.RMSPROP).
-                        nIn(LAYER_SIZE).
+                        nIn(layerSize).
                         nOut(characterMap.size()).
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
                 pretrain(false).
-                backprop(true).
-                build()
+                backprop(true)
 
-        val model = MultiLayerNetwork(config)
+        val model = MultiLayerNetwork(config.build())
         model.init()
 
         return Network(model, characterMap)

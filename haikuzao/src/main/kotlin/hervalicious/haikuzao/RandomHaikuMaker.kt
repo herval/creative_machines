@@ -51,7 +51,7 @@ class RandomHaikuMaker(private val extractor: Extractor, private val dictionary:
                     c.defaultTopology()
             ).load()
 
-            val data = Loader(listOf(Config.rawContent.toFile()), network.characterMap()).contents
+            val data = Loader(listOf(Config.rawContent), network.characterMap()).contents
             val dictionary = data.map { l -> l.split(" ") }.flatten().map { w -> w.toLowerCase() }.toSet()
 
             return RandomHaikuMaker(Extractor(network), dictionary)

@@ -35,14 +35,13 @@ class Extractor(network: NetworkManager) {
         val init = initialization.toCharArray()
         for (i in init.indices) {
             val idx = characterMap.indexOf(init[i])
-            for (j in 0..numSamples - 1) {
+            for (j in 0..(numSamples - 1)) {
                 initializationInput.putScalar(intArrayOf(j, idx!!, i), 1.0f)
             }
         }
 
-        val builders = arrayOfNulls<StringBuilder>(numSamples)
-        for (i in builders.indices) {
-            builders[i] = StringBuilder(initialization)
+        val builders = (0..numSamples).map {
+            StringBuilder(initialization)
         }
 
         val distribution = NumericDistribution()
@@ -53,18 +52,19 @@ class Extractor(network: NetworkManager) {
         var output = network.model.rnnTimeStep(initializationInput)
         output = output.tensorAlongDimension(output.size(2) - 1, 1, 0)    //Gets the last time step output
 
-        for (i in 0..charactersToSample - 1) {
+        for (i in 0..(charactersToSample - 1)) {
             //Set up next input (single time step) by sampling from previous output
             val nextInput = Nd4j.zeros(numSamples, characterMap.size())
             //Output is a probability distribution. Sample from this for each example we want to generate, and add it to the new input
-            for (s in 0..numSamples - 1) {
+            for (s in 0..(numSamples - 1)) {
                 val outputProbDistribution = DoubleArray(characterMap.size())
-                for (j in outputProbDistribution.indices)
+                for (j in outputProbDistribution.indices) {
                     outputProbDistribution[j] = output.getDouble(s, j)
+                }
                 val sampledCharacterIdx = distribution.sample(outputProbDistribution)
 
                 nextInput.putScalar(intArrayOf(s, sampledCharacterIdx), 1.0f)        //Prepare next time step input
-                builders[s]?.append(characterMap.charAt(sampledCharacterIdx))    //Add sampled character to StringBuilder (human readable output)
+                builders[s].append(characterMap.charAt(sampledCharacterIdx))    //Add sampled character to StringBuilder (human readable output)
             }
 
             output = network.model.rnnTimeStep(nextInput)    //Do one time step of forward pass
