@@ -11,45 +11,51 @@ class RandomHaikuMaker(private val extractor: Extractor, private val dictionary:
 
     // sample a Haiku from the network
     override fun sample(): String {
-        return extractor.sample(sequenceSize, maxTries)
-                .flatMap { raw ->
-                    splitInHaikus(raw)
-                            .filter { l -> l.count { it == '\n' } == 3 } // only 3-lines...
-                            .map { words ->
+        return extractor.sample(sequenceSize, maxTries).
+                flatMap { raw ->
+                    splitInHaikus(raw).
+                            filter { l -> l.count { it == '\n' } == 2 }. // only 3-lines...
+                            map { words ->
                                 countWeirdWords(words) to words
-                            }
-                            .sortedBy { c -> c.first } // as few weird words as possible
-                            .map { it.second }
-                }
-                .first()
+                            }.
+                            sortedBy { it.first }. // as few weird words as possible
+                            map { it.second }
+                }.first()
     }
 
-    private fun splitInHaikus(raw: String): List<String> {
-        return raw.split("\n").fold(mutableListOf<MutableList<String>>(), { lists, line ->
-            if (line.isEmpty()) {
-                lists.add(mutableListOf("")) // a new haiku appears!
+    fun splitInHaikus(raw: String): List<String> {
+        val results = mutableListOf<MutableList<String>>(mutableListOf())
+
+        raw.split("\n").map { line ->
+            if(line.isBlank()) {
+                results.add(mutableListOf())
             } else {
-                lists.last().add(line + "\n") // append line to the last haiku
+                results.last().add(line)
             }
-            lists
-        }).map { l -> l.joinToString("\n") }.toList()
+        }
+
+        return results.map { r ->
+            r.joinToString("\n")
+        }.filter { h ->
+            h.isNotBlank()
+        }
     }
 
     private fun countWeirdWords(words: String): Int {
-        return words.replace("\n", " ")
-                .split(" ")
-                .filterNot { it.isEmpty() }
-                .count { w -> !dictionary.contains(w.toLowerCase()) }
+        return words.replace("\n", " ").
+                split(" ").
+                filterNot { it.isEmpty() }.
+                count { w -> !dictionary.contains(w.toLowerCase()) }
     }
 
 
     companion object {
 
         fun build(c: Config): RandomHaikuMaker {
-            val network = NetworkManager.defaultConfig(
+            val network = NetworkManager.load(
                     c.networkPath,
-                    c.defaultTopology()
-            ).load()
+                    c.defaultCharacterMap
+            )
 
             val data = Loader(listOf(Config.rawContent), network.characterMap()).contents
             val dictionary = data.map { l -> l.split(" ") }.flatten().map { w -> w.toLowerCase() }.toSet()

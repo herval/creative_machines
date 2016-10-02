@@ -1,5 +1,4 @@
 import hervalicious.ai.rnn.CharacterMap
-import hervalicious.markov.MarkovChain
 import junit.framework.TestCase
 
 /**
@@ -7,9 +6,10 @@ import junit.framework.TestCase
  */
 class CharacterMapTest : TestCase() {
 
-    fun testDefault() {
-        val map = CharacterMap.defaultCharacterMap
-        assert(map.size() == 84)
+    fun testSizes() {
+        assert(CharacterMap.defaultCharacterMap.size() == 94)
+        assert(CharacterMap.minimalCharacterMap.size() == 77)
+
     }
 
 }

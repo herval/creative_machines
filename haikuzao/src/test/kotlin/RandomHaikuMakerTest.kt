@@ -7,9 +7,27 @@ import junit.framework.TestCase
  */
 class RandomHaikuMakerTest : TestCase() {
 
+    fun testSplit() {
+        val maker = RandomHaikuMaker.build(Config)
+        val haikus = maker.splitInHaikus("""
+new March snow
+the grouse with a missing toe
+the grouse with a missing toe
+still around
+
+Remembrance Day-
+pauses for 2 minutes
+
+21-gun salute-
+mortar fire echoes
+in his eyes
+        """)
+
+        assert(haikus.size == 3)
+    }
+
     fun testGenerator() {
         val maker = RandomHaikuMaker.build(Config)
-
         println(
                 maker.sample()
         )

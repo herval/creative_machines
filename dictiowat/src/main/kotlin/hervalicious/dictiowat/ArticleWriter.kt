@@ -15,10 +15,10 @@ class ArticleWriter(val extractor: Extractor) : TweetMaker {
 
     companion object {
         fun build(c: Config): ArticleWriter {
-            val network = NetworkManager.defaultConfig(
+            val network = NetworkManager.load(
                     c.networkPath,
-                    c.defaultTopology()
-            ).load()
+                    c.defaultCharacterMap
+            )
 
             return ArticleWriter(Extractor(network))
         }

@@ -14,14 +14,18 @@ class NumericDistribution {
 
      * @param distribution Probability distribution over classes. Must sum to 1.0
      */
-    fun sample(distribution: DoubleArray): Int {
+    fun sample(distribution: List<Double>): Int? {
         val d = random.nextDouble()
-        var sum = 0.0
+        var sum: Double = 0.0
         for (i in distribution.indices) {
             sum += distribution[i]
-            if (d <= sum) return i
+            if (d <= sum) {
+                return i
+            }
         }
-        //Should never happen if distribution is a valid probability distribution
-        throw IllegalArgumentException("Distribution is invalid? d=$d, sum=$sum")
+
+        return null
+        //Should never happen if distribution is a valid probability distribution - BUT IT DOES
+//        throw IllegalArgumentException("Distribution is invalid? d=$d, sum=$sum l=${distribution}")
     }
 }

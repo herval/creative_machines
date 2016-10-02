@@ -13,29 +13,11 @@ import java.nio.file.Path
 class NetworkManager(
         private val coefficients: File,
         private val topology: File,
-        defaultNetwork: Network
+        val network: Network
 ) {
-    var network = defaultNetwork
 
     fun characterMap(): CharacterMap {
         return network.characterMap
-    }
-
-    fun load(): NetworkManager {
-        val confFromJson = MultiLayerConfiguration.fromJson(FileUtils.readFileToString(topology))
-        val dis = DataInputStream(FileInputStream(coefficients))
-        val newParams = Nd4j.read(dis)
-        dis.close()
-
-        val model = MultiLayerNetwork(confFromJson)
-        model.init()
-        model.setParameters(newParams)
-
-        network = Network(model, network.characterMap)
-
-        println("Loaded network from file")
-
-        return this
     }
 
     fun save() {
@@ -47,18 +29,48 @@ class NetworkManager(
         FileUtils.writeStringToFile(topology, network.model.layerWiseConfigurations.toJson())
     }
 
+
     companion object {
         private val COEFICIENTS_FILE = "coefficients_network.bin"
         private val NETWORK_CONFIG_FILE = "conf_network.json"
 
-        fun defaultConfig(storagePath: Path, network: Network): NetworkManager {
+        fun coefficientsFile(storagePath: Path): File {
+            return File(storagePath.toFile(), COEFICIENTS_FILE)
+        }
+
+        fun topologyFile(storagePath: Path): File {
+            return File(storagePath.toFile(), NETWORK_CONFIG_FILE)
+        }
+
+        fun load(storagePath: Path, characterMap: CharacterMap): NetworkManager {
+            val confFromJson = MultiLayerConfiguration.fromJson(FileUtils.readFileToString(topologyFile(storagePath)))
+            val dis = DataInputStream(FileInputStream(coefficientsFile(storagePath)))
+            val newParams = Nd4j.read(dis)
+            dis.close()
+
+            val model = MultiLayerNetwork(confFromJson)
+            model.init()
+            model.setParameters(newParams)
+
+            val network = Network(model, characterMap)
+
+            println("Loaded network from file")
+
+            return NetworkManager(
+                    coefficientsFile(storagePath),
+                    topologyFile(storagePath),
+                    network
+            )
+        }
+
+        fun defaultConfig(storagePath: Path, defaultNetwork: Network): NetworkManager {
             val dir = storagePath.toFile()
             dir.mkdirs()
 
             return NetworkManager(
-                    File(storagePath.toFile(), COEFICIENTS_FILE),
-                    File(storagePath.toFile(), NETWORK_CONFIG_FILE),
-                    network
+                    coefficientsFile(storagePath),
+                    topologyFile(storagePath),
+                    defaultNetwork
             )
         }
     }

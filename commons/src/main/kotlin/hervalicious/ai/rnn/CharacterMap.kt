@@ -34,6 +34,7 @@ class CharacterMap(private val validCharacters: List<Char>) {
     companion object {
         private val minimalCharacterSet = ('a'..'z').toList() +
                 ('A'..'Z').toList() +
+                ('0'..'9').toList() +
                 listOf('!', '&', '(', ')', '?', '-', '\'', '"', ',', '.', ':', ';', ' ', '\n', '\t')
 
         /**

@@ -15,15 +15,6 @@ class Trainer(private val network: NetworkManager, private val contentLoader: Lo
     private val trainingSet = contentLoader.iterator(training)
     private val extractor =  Extractor(network)
 
-    init {
-        try {
-            network.load()
-            println("Loaded network from disk")
-        } catch (e: IOException) {
-            println("Couldn't load pre-trained network, generating from scratch")
-        }
-    }
-
     fun run() {
         (0..training.iterations).forEach { i ->
             println("Training epoch " + i)

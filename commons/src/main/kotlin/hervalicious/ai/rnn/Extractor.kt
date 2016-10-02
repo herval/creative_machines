@@ -32,15 +32,14 @@ class Extractor(network: NetworkManager) {
 
         //Create input for initialization
         val initializationInput = Nd4j.zeros(numSamples, characterMap.size(), initialization.length)
-        val init = initialization.toCharArray()
-        for (i in init.indices) {
-            val idx = characterMap.indexOf(init[i])
+        for (i in initialization.indices) {
+            val idx = characterMap.indexOf(initialization[i].toChar())
             for (j in 0..(numSamples - 1)) {
                 initializationInput.putScalar(intArrayOf(j, idx!!, i), 1.0f)
             }
         }
 
-        val builders = (0..numSamples).map {
+        val sampleBuilders = (0..(numSamples - 1)).map {
             StringBuilder(initialization)
         }
 
@@ -56,21 +55,23 @@ class Extractor(network: NetworkManager) {
             //Set up next input (single time step) by sampling from previous output
             val nextInput = Nd4j.zeros(numSamples, characterMap.size())
             //Output is a probability distribution. Sample from this for each example we want to generate, and add it to the new input
-            for (s in 0..(numSamples - 1)) {
-                val outputProbDistribution = DoubleArray(characterMap.size())
-                for (j in outputProbDistribution.indices) {
-                    outputProbDistribution[j] = output.getDouble(s, j)
+            for (sampleNumber in 0..(numSamples - 1)) {
+                val outputProbDistribution = (0..(characterMap.size() - 1)).map { charIndex ->
+                    // TODO this sometimes returns NaN. WHY!?!?
+                    output.getDouble(sampleNumber, charIndex)
                 }
-                val sampledCharacterIdx = distribution.sample(outputProbDistribution)
 
-                nextInput.putScalar(intArrayOf(s, sampledCharacterIdx), 1.0f)        //Prepare next time step input
-                builders[s].append(characterMap.charAt(sampledCharacterIdx))    //Add sampled character to StringBuilder (human readable output)
+                val sampledCharacterIdx = distribution.sample(outputProbDistribution)
+                if(sampledCharacterIdx != null) {
+                    nextInput.putScalar(intArrayOf(sampleNumber, sampledCharacterIdx), 1.0f)        //Prepare next time step input
+                    sampleBuilders[sampleNumber].append(characterMap.charAt(sampledCharacterIdx))    //Add sampled character to StringBuilder (human readable output)
+                }
             }
 
             output = network.model.rnnTimeStep(nextInput)    //Do one time step of forward pass
         }
 
-        return builders.map { l -> l.toString() }.toTypedArray()
+        return sampleBuilders.map { l -> l.toString() }.toTypedArray()
     }
 
 }
