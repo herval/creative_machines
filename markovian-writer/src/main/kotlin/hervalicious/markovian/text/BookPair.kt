@@ -8,23 +8,21 @@ import hervalicious.markov.MarkovChain
 class BookPair(
         first: BookTitle,
         second: BookTitle,
-        maxSentences: Int,
-        attempts: Int = 15
+        private val attempts: Int = 15
 ) {
 
     fun quote(): String {
         val chars = 140 - title.length - tags.length
-        return chain.take(
-                maxChars = chars,
-                maxSentences = maxSentences,
+        val quote = chain.takePhrase(
+                maxCharacters = chars,
                 attempts = attempts
-        ).map {
-            words => "${words}\n\n- ${title}\n\n${tags}"
-        }
+        )
+        return "${quote}\n\n- ${title}\n\n${tags}"
     }
 
     private val chain = MarkovChain(
-            (GutenbergEbookLoader(first.filename).text + "\n" + GutenbergEbookLoader(second.filename).text).split(" ")
+            (GutenbergEbookLoader(first.filename).text + " " + GutenbergEbookLoader(second.filename).text),
+            scrubbedChars = listOf("(", ")")
     )
 
     private val title = first.prefix.replace("$", second.postfix)

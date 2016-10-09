@@ -4,16 +4,17 @@ import hervalicious.ai.rnn.CharacterMap
 import hervalicious.ai.rnn.Extractor
 import hervalicious.ai.rnn.Loader
 import hervalicious.ai.rnn.NetworkManager
+import hervalicious.tumblr.PostMaker
 import org.nd4j.linalg.factory.Nd4j
 import java.util.*
 
 /**
  * Created by herval on 10/31/15.
  */
-class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain: Extractor) {
-    private val rnd = Nd4j.getRandom()
+class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain: Extractor) : PostMaker {
+    private val rnd = Random()
 
-    fun writeASong(): Song {
+    override fun content(): String {
         val phrases = inspiredBrain.sample(100 + rnd.nextInt(200), 1 + rnd.nextInt(4))
 
         // pick up 1 - 8 verses
@@ -30,16 +31,11 @@ class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain
             }
         }
 
-        val lyrics = finalLyrics.joinToString("\n").trim { it <= ' ' }
-
-        return Song(
-                makeUpTitle(),
-                lyrics
-        )
+        return finalLyrics.joinToString("\n").trim { it <= ' ' }
     }
 
-    fun makeUpTitle(): String {
-        var title = titleMaker.take(1 + rnd.nextInt(5))
+    override fun title(): String {
+        var title = titleMaker.take(1 + rnd.nextInt(6))
         if (title.contains("(") && !title.contains(")")) {
             title += ")"
         }
@@ -49,8 +45,7 @@ class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain
     companion object {
 
         fun build(config: Config): LyricsWriter {
-            val manager = NetworkManager.defaultConfig(config.networkPath, config.defaultTopology())
-            manager.load()
+            val manager = NetworkManager.load(config.networkPath, config.defaultCharacterMap)
 
             return LyricsWriter(
                     TitleMaker(Loader(config.titleFiles, CharacterMap.defaultCharacterMap)),

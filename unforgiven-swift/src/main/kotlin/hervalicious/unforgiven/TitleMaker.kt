@@ -8,9 +8,12 @@ import java.util.*
  * Created by herval on 3/30/16.
  */
 class TitleMaker(contentLoader: Loader) {
-    private val chainsOfCreativity = MarkovChain(contentLoader.contents)
+    private val chainsOfCreativity = MarkovChain(
+            contentLoader.contents.joinToString("\n"),
+            stopWords = setOf("\n")
+    )
 
     fun take(q: Int): String {
-        return chainsOfCreativity.take(q).joinToString(" ")
+        return chainsOfCreativity.takeWords(q, attempts = 10).joinToString(" ")
     }
 }

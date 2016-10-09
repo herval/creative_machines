@@ -12,7 +12,7 @@ class LyricsWriterTest : TestCase() {
 
         (0..10).forEach {
             println(
-                    maker.makeUpTitle()
+                    maker.title()
             )
         }
     }
@@ -21,7 +21,7 @@ class LyricsWriterTest : TestCase() {
         val maker = LyricsWriter.build(Config)
 
         println(
-                maker.writeASong()
+                maker.content()
         )
     }
 }

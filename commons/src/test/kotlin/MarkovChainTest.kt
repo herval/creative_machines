@@ -6,10 +6,20 @@ import junit.framework.TestCase
  */
 class MarkovChainTest : TestCase() {
 
-    internal var chain = MarkovChain(listOf("Hello world again"))
-
-    fun testLoad() {
-        assertEquals("Hello world again", chain.take(3).joinToString(" "))
+    fun testWords() {
+        val chain = MarkovChain("Hello world again")
+        assertEquals("Hello world again", chain.takeWords(3).joinToString(" "))
     }
 
+    fun testOpeners() {
+        val chain = MarkovChain("Hello world again. So many phrases. ZOMG!")
+        assertEquals(setOf("Hello", "So", "ZOMG!"), chain.openers)
+    }
+
+
+    fun testPhrases() {
+        val phrases = "Hello world again. So many phrases. ZOMG!"
+        val chain = MarkovChain(phrases)
+        assertEquals("Hello world again.", chain.takePhrase(phrases.length, 1, opener = "Hello"))
+    }
 }

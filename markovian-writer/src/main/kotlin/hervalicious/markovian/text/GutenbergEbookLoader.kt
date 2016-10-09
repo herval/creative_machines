@@ -24,6 +24,6 @@ class GutenbergEbookLoader(filename: String) {
     private fun loadText(filename: String): String {
         return File(
                 javaClass.getResource("/books/${filename}").toURI()
-        ).readLines().joinToString("\n")
+        ).readLines().joinToString(" ")
     }
 }

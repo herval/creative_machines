@@ -7,16 +7,41 @@ import java.util.*
  *
  * Created by herval on 3/30/16.
  */
-class MarkovChain(sequences: List<String>) {
+class MarkovChain(
+        sequences: String,
+        scrubbedChars: List<String> = listOf(),
+        private val stopWords: Set<String> = setOf("!", "?", "."),
+        private val nonStop: Set<String> = setOf("Mr.", "Mrs.", "St.", "Ms.")
+) {
     private val rnd = Random()
     private val chains = HashMap<String, List<String>>()
 
-    private val words = sequences.map { s -> s.split(" ") }
+//    private var words
 
-    private val openers = words.map { s -> s[0] }.toSet()
+    val openers: Set<String>
 
     init {
-        words.forEach { line ->
+        var words = sequences
+        scrubbedChars.forEach { c -> words = words.replace(c, "") }
+
+        val phrases = words.split(" ").fold(
+                mutableListOf(mutableListOf<String>()),
+                { phrases, w ->
+                    if (w.trim().isNotBlank()) {
+                        val phrase = phrases.last()
+                        phrase.add(w.trim())
+
+                        if (isStop(w)) {
+                            phrases.add(mutableListOf<String>())
+                        }
+                    }
+                    phrases
+                }
+        ).filter { p -> p.isNotEmpty() }
+
+        openers = phrases.map { s -> s[0] }.toSet()
+
+        phrases.forEach { line ->
             load(line[0], line.drop(1))
         }
     }
@@ -47,10 +72,41 @@ class MarkovChain(sequences: List<String>) {
         return list.elementAt(rnd.nextInt(list.size - 1))
     }
 
-    private val MAX_TAKE_ATTEMPTS = 3
+    private fun isStop(word: String): Boolean {
+        return !nonStop.contains(word) && stopWords.contains(word.last().toString()) // TODO regex
+    }
 
-    fun take(maxWords: Int): Array<String> {
-        val head = random(openers)
+    // take full sentences
+    fun takePhrase(maxCharacters: Int, attempts: Int, opener: String? = null): String {
+        val sequences = (0..attempts).flatMap {
+            val seqs = takeWords(maxCharacters, opener = opener) // lots of words...
+            seqs.fold(mutableListOf<StringBuilder>(StringBuilder()), { phrases, word ->
+                // current chain is too long, add a new one
+                if (phrases.last().length >= maxCharacters || (phrases.last().length + word.length) > maxCharacters) {
+                    phrases.add(StringBuilder())
+                }
+
+//                if (isStop(word)) {
+//                    phrases.last().append(word)
+//                    phrases.add(StringBuilder())
+//                } else {
+                phrases.last().append(word + " ")
+//                }
+
+                phrases
+            })
+        }.map { s -> s.trim().split(" ").dropLastWhile { w -> !isStop(w) }.joinToString(" ") } // keep only full phrases
+
+        return sequences.filter { s -> s.isNotBlank() && s.length <= maxCharacters }.
+                sortedByDescending { s -> s.length }.
+                first().toString()
+    }
+
+    private val maxTakeAttempts = 3
+
+    // take n chained words
+    fun takeWords(maxWords: Int, attempts: Int = maxTakeAttempts, opener: String? = null): Array<String> {
+        val head = opener ?: random(openers)
 
         val words = ArrayList<String>()
 
@@ -61,7 +117,7 @@ class MarkovChain(sequences: List<String>) {
             var word = random(next)
             var attempt = 0
 
-            while (word == null && ++attempt <= MAX_TAKE_ATTEMPTS && next.size > 0) {
+            while (word == null && ++attempt <= attempts && next.size > 0) {
                 word = random(next)
             }
 
