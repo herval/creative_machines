@@ -1,7 +1,7 @@
 package hervalicious.haikuzao
 
 import hervalicious.ai.rnn.Extractor
-import hervalicious.ai.rnn.Loader
+import hervalicious.ai.rnn.FileLoader
 import hervalicious.ai.rnn.NetworkManager
 import hervalicious.twitter.Bot
 

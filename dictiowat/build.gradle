@@ -7,4 +7,5 @@ mainClassName = 'hervalicious.dictiowat.BotRunner'
 
 dependencies {
     compile project(":commons")
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
 }

@@ -1,6 +1,6 @@
 package hervalicious.haikuzao
 
-import hervalicious.ai.rnn.Loader
+import hervalicious.ai.rnn.FileLoader
 import hervalicious.ai.rnn.NetworkManager
 import hervalicious.ai.rnn.Trainer
 
@@ -16,7 +16,7 @@ object BotTrainer {
 
         Trainer(
                 network,
-                Loader(listOf(Config.rawContent), network.characterMap())
+                FileLoader(listOf(Config.rawContent), network.characterMap())
         ).run()
     }
 }

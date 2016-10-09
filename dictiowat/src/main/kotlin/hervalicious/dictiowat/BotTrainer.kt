@@ -1,7 +1,7 @@
 package hervalicious.dictiowat
 
-import hervalicious.ai.rnn.Loader
 import hervalicious.ai.rnn.NetworkManager
+import hervalicious.ai.rnn.StringLoader
 import hervalicious.ai.rnn.Trainer
 
 /**
@@ -9,14 +9,33 @@ import hervalicious.ai.rnn.Trainer
  */
 object BotTrainer {
     @JvmStatic fun main(args: Array<String>) {
-        val network = NetworkManager.defaultConfig(
-                hervalicious.dictiowat.Config.networkPath,
-                hervalicious.dictiowat.Config.defaultTopology(hervalicious.dictiowat.Config.defaultCharacterMap)
+        val config = Config()
+        val dictionary = Loader(config.jsonContent)
+
+        val procs = listOf(
+                Thread(Runnable {
+                    val network = NetworkManager.defaultConfig(
+                            config.wordsNetworkPath,
+                            config.wordsTopology()
+                    )
+                    Trainer(
+                            network,
+                            StringLoader(dictionary.words, network.characterMap())
+                    ).run()
+                }),
+                Thread(Runnable {
+                    val network = NetworkManager.defaultConfig(
+                            config.definitionsNetworkPath,
+                            config.definitionsTopology()
+                    )
+                    Trainer(
+                            network,
+                            StringLoader(dictionary.definitions, network.characterMap())
+                    ).run()
+                })
         )
 
-        Trainer(
-                network,
-                Loader(listOf(Config.rawContent), network.characterMap())
-        ).run()
+        procs.forEach(Thread::start)
+        procs.forEach(Thread::join)
     }
 }

@@ -1,7 +1,7 @@
 package hervalicious.haikuzao
 
 import hervalicious.ai.rnn.Extractor
-import hervalicious.ai.rnn.Loader
+import hervalicious.ai.rnn.FileLoader
 import hervalicious.ai.rnn.NetworkManager
 import hervalicious.twitter.TweetMaker
 
@@ -57,7 +57,7 @@ class RandomHaikuMaker(private val extractor: Extractor, private val dictionary:
                     c.defaultCharacterMap
             )
 
-            val data = Loader(listOf(Config.rawContent), network.characterMap()).contents
+            val data = FileLoader(listOf(Config.rawContent), network.characterMap()).contents
             val dictionary = data.map { l -> l.split(" ") }.flatten().map { w -> w.toLowerCase() }.toSet()
 
             return RandomHaikuMaker(Extractor(network), dictionary)

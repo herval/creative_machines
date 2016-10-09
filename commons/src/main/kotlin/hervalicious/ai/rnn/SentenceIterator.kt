@@ -10,8 +10,8 @@ import org.nd4j.linalg.dataset.api.DataSetPreProcessor
  * Created by herval on 9/25/16.
  */
 class SentenceIterator(
-        lines: List<String>,
-        characterMap: CharacterMap
+//        lines: List<String>,
+//        characterMap: CharacterMap
 ) : DataSetIterator {
 
     override fun hasNext(): Boolean {

@@ -2,7 +2,7 @@ package hervalicious.unforgiven
 
 import hervalicious.ai.rnn.CharacterMap
 import hervalicious.ai.rnn.Extractor
-import hervalicious.ai.rnn.Loader
+import hervalicious.ai.rnn.FileLoader
 import hervalicious.ai.rnn.NetworkManager
 import hervalicious.tumblr.PostMaker
 import org.nd4j.linalg.factory.Nd4j
@@ -48,7 +48,7 @@ class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain
             val manager = NetworkManager.load(config.networkPath, config.defaultCharacterMap)
 
             return LyricsWriter(
-                    TitleMaker(Loader(config.titleFiles, CharacterMap.defaultCharacterMap)),
+                    TitleMaker(FileLoader(config.titleFiles, CharacterMap.defaultCharacterMap)),
                     Extractor(manager)
             )
         }

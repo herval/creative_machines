@@ -8,7 +8,7 @@ import junit.framework.TestCase
 class ArticleWriterTest : TestCase() {
 
     fun testGenerator() {
-        val maker = ArticleWriter.build(Config)
+        val maker = ArticleWriter.build(Config())
 
         println(
                 maker.sample()

@@ -12,15 +12,11 @@ class BotRunner {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-
-            val network = NetworkManager.defaultConfig(
-                    Config.networkPath,
-                    Config.defaultTopology()
-            ).load()
+            val config = Config()
 
             val bot = Bot(
-                    Config,
-                    ArticleWriter(Extractor(network))
+                    config,
+                    ArticleWriter.build(config)
             )
 
             val proc = Thread(bot)
