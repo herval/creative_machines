@@ -1,6 +1,6 @@
 {
   "confs" : [ {
-    "lr" : 0.01,
+    "lr" : 0.04,
     "numIterations" : 1,
     "momentum" : 0.5,
     "l2" : 0.0,
@@ -29,7 +29,7 @@
         "l2" : "NaN",
         "lr" : "NaN",
         "forgetGateBiasInit" : 1.0,
-        "nout" : 200,
+        "nout" : 300,
         "nin" : 94
       }
     },
@@ -38,11 +38,11 @@
     "timeSeriesLength" : 1,
     "batchSize" : 100,
     "minimize" : false,
-    "l1" : 0.001,
-    "rmsDecay" : 0.97,
+    "l1" : 0.01,
+    "rmsDecay" : 0.95,
     "miniBatch" : true
   }, {
-    "lr" : 0.01,
+    "lr" : 0.04,
     "numIterations" : 1,
     "momentum" : 0.5,
     "l2" : 0.0,
@@ -71,8 +71,8 @@
         "l2" : "NaN",
         "lr" : "NaN",
         "forgetGateBiasInit" : 1.0,
-        "nout" : 200,
-        "nin" : 200
+        "nout" : 300,
+        "nin" : 300
       }
     },
     "variables" : [ "W", "RW", "b" ],
@@ -80,11 +80,11 @@
     "timeSeriesLength" : 1,
     "batchSize" : 100,
     "minimize" : false,
-    "l1" : 0.001,
-    "rmsDecay" : 0.97,
+    "l1" : 0.01,
+    "rmsDecay" : 0.95,
     "miniBatch" : true
   }, {
-    "lr" : 0.01,
+    "lr" : 0.04,
     "numIterations" : 1,
     "momentum" : 0.5,
     "l2" : 0.0,
@@ -115,7 +115,7 @@
         "lossFunction" : "MCXENT",
         "customLossFunction" : null,
         "nout" : 94,
-        "nin" : 200
+        "nin" : 300
       }
     },
     "variables" : [ "W", "b" ],
@@ -123,8 +123,8 @@
     "timeSeriesLength" : 1,
     "batchSize" : 100,
     "minimize" : false,
-    "l1" : 0.001,
-    "rmsDecay" : 0.97,
+    "l1" : 0.01,
+    "rmsDecay" : 0.95,
     "miniBatch" : true
   } ],
   "pretrain" : false,
