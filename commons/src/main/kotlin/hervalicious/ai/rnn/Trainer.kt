@@ -10,8 +10,7 @@ import java.nio.file.Path
 /**
  * Created by herval on 3/28/16.
  */
-class Trainer(private val network: NetworkManager, private val contentLoader: Loader) {
-    private val training = TrainingSet()
+class Trainer(private val network: NetworkManager, private val contentLoader: Loader, val training: TrainingSet = TrainingSet()) {
     private val trainingSet = contentLoader.iterator(training)
     private val extractor =  Extractor(network)
 

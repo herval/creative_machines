@@ -3,6 +3,7 @@ package hervalicious.unforgiven
 import hervalicious.ai.rnn.FileLoader
 import hervalicious.ai.rnn.NetworkManager
 import hervalicious.ai.rnn.Trainer
+import hervalicious.ai.rnn.TrainingSet
 
 /**
  * Created by herval on 9/25/16.
@@ -16,7 +17,14 @@ object BotTrainer {
 
         Trainer(
                 network,
-                FileLoader(listOf(Config.rawContent), network.characterMap())
+                FileLoader(listOf(Config.rawContent), network.characterMap()),
+                TrainingSet(
+                        iterations = 100,
+                        batchSize = 32,
+                        exampleLength = 300,
+                        examplesPerIteration = 1600
+                )
+
         ).run()
     }
 }

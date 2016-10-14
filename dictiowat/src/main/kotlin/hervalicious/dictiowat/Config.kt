@@ -29,37 +29,29 @@ class Config : hervalicious.twitter.Config() {
     val definitionsCharacterMap = CharacterMap.defaultCharacterMap
 
     fun definitionsTopology(characterMap: CharacterMap = definitionsCharacterMap): Network {
-        val LAYER_SIZE = 200 //Number of units in each GravesLSTM layer
+        val layerSize = 350 //Number of units in each GravesLSTM layer
 
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
                 iterations(1).
                 learningRate(0.01).
-                rmsDecay(0.97).
+                rmsDecay(0.95).
                 seed(12345).
                 regularization(true).
                 l1(0.001).
-                list(3).
+                list(2).
                 layer(0, GravesLSTM.Builder().
                         nIn(characterMap.size()).
-                        nOut(LAYER_SIZE).
+                        nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
-                layer(1, GravesLSTM.Builder().
-                        nIn(LAYER_SIZE).
-                        nOut(LAYER_SIZE).
-                        updater(Updater.RMSPROP).
-                        activation("tanh").
-                        weightInit(WeightInit.DISTRIBUTION).
-                        dist(UniformDistribution(-0.08, 0.08)).
-                        build()).
-                layer(2, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT).
+                layer(1, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT).
                         activation("softmax").//MCXENT + softmax for classification
                         updater(Updater.RMSPROP).
-                        nIn(LAYER_SIZE).
+                        nIn(layerSize).
                         nOut(characterMap.size()).
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
@@ -77,10 +69,10 @@ class Config : hervalicious.twitter.Config() {
 
     val wordsNetworkPath = conf.resource("/networks/words")
 
-    val wordsCharacterMap = CharacterMap.minimalCharacterMap
+    val wordsCharacterMap = CharacterMap.lettersAndSpacesOnlyCharacterSet
 
     fun wordsTopology(characterMap: CharacterMap = wordsCharacterMap): Network {
-        val LAYER_SIZE = 100 //Number of units in each GravesLSTM layer
+        val layerSize = 100 //Number of units in each GravesLSTM layer
 
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
@@ -93,15 +85,15 @@ class Config : hervalicious.twitter.Config() {
                 list(3).
                 layer(0, GravesLSTM.Builder().
                         nIn(characterMap.size()).
-                        nOut(LAYER_SIZE).
+                        nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
                 layer(1, GravesLSTM.Builder().
-                        nIn(LAYER_SIZE).
-                        nOut(LAYER_SIZE).
+                        nIn(layerSize).
+                        nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
                         weightInit(WeightInit.DISTRIBUTION).
@@ -110,7 +102,7 @@ class Config : hervalicious.twitter.Config() {
                 layer(2, RnnOutputLayer.Builder(LossFunctions.LossFunction.MCXENT).
                         activation("softmax").//MCXENT + softmax for classification
                         updater(Updater.RMSPROP).
-                        nIn(LAYER_SIZE).
+                        nIn(layerSize).
                         nOut(characterMap.size()).
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).

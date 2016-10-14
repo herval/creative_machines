@@ -5,7 +5,7 @@ package hervalicious.ai.rnn
  */
 class TrainingSet(
         val iterations: Int = 100,
-        val batchSize: Int = 10,
-        val exampleLength: Int = 200,
-        val examplesPerIteration: Int = 1600
+        val batchSize: Int = 5,
+        val exampleLength: Int = 50,
+        val examplesPerIteration: Int = 300
 )

@@ -63,6 +63,15 @@ class NetworkManager(
             )
         }
 
+        fun loadOrDefault(storagePath: Path, defaultNetwork: Network): NetworkManager {
+            return try {
+                load(storagePath, defaultNetwork.characterMap)
+            } catch (e: Exception) {
+                println("Couldn't load: ${e.message}")
+                defaultConfig(storagePath, defaultNetwork)
+            }
+        }
+
         fun defaultConfig(storagePath: Path, defaultNetwork: Network): NetworkManager {
             val dir = storagePath.toFile()
             dir.mkdirs()
