@@ -7,11 +7,19 @@ import junit.framework.TestCase
  */
 class ArticleWriterTest : TestCase() {
 
+    fun testDefinitions() {
+        val maker = ArticleWriter.build(Config())
+
+        0.until(10).forEach {
+            println(maker.definition(100))
+        }
+    }
+
     fun testGenerator() {
         val maker = ArticleWriter.build(Config())
 
-        println(
-                maker.sample()
-        )
+        0.until(10).forEach {
+            println(maker.sample())
+        }
     }
 }
