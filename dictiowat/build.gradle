@@ -9,3 +9,25 @@ dependencies {
     compile project(":commons")
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
 }
+
+task createAllStartScripts() << {
+    // just a placeholder
+}
+def scripts = [
+        'bot': 'hervalicious.dictiowat.BotRunner',
+        'train': 'hervalicious.dictiowat.BotTrainer'
+]
+
+scripts.each() { scriptName, className ->
+    def t = tasks.create(name: scriptName + 'StartScript', type: CreateStartScripts) {
+        mainClassName = className
+        applicationName = scriptName
+        outputDir = new File(project.buildDir, 'scripts')
+        classpath = jar.outputs.files + project.configurations.runtime
+    }
+    applicationDistribution.into("bin") {
+        from(t)
+        fileMode = 0755
+    }
+    createAllStartScripts.dependsOn(t)
+}

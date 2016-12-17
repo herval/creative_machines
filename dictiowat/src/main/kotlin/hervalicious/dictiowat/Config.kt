@@ -66,7 +66,7 @@ class Config : hervalicious.twitter.Config() {
         return Network(model, characterMap)
     }
 
-
+    // TODO point to src folder?
     val wordsNetworkPath = conf.resource("/networks/words")
 
     val wordsCharacterMap = CharacterMap.lettersAndSpacesOnlyCharacterSet
