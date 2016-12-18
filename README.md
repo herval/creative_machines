@@ -25,6 +25,8 @@ A Neural Network that generates random music lyrics crossing the genius writing 
 ## [Haikuzao](haikuzao/README.md)
 A Neural Network that generates unlimited Haiku on [Twitter](https://twitter.com/haikuzao).
 
+## [Bring Your Own Internet of Things Bot](android-things-bot/README.md)
+Giving little physical bodies to AI bots, so they feel more human.
 
 # TO DO
 

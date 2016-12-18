@@ -12,3 +12,13 @@ out/
 .env
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
+.env_haikuzao
+android-things-bot/local.properties
+android-things-bot/android-things-bot.iml
+local.properties
+commons/commons.iml
+creative_machines.iml
+dictiowat/dictiowat.iml
+haikuzao/haikuzao.iml
+markovian-writer/markovian-writer.iml
+unforgiven-swift/unforgiven-swift.iml

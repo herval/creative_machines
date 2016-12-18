@@ -1,3 +1,3 @@
 rootProject.name = 'creative_machines'
 
-include 'commons', 'dictiowat', 'unforgiven-swift', 'markovian-writer', 'haikuzao'
+include 'commons', 'dictiowat', 'unforgiven-swift', 'markovian-writer', 'haikuzao', 'android-things-bot'

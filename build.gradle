@@ -1,11 +1,10 @@
 group 'hervalicious.ai'
 version '1.0-SNAPSHOT'
 
-
 //sourceCompatibility = 1.8
 
 buildscript {
-    ext.kotlin_version = '1.0.4'
+    ext.kotlin_version = '1.0.5-3'
     repositories {
         jcenter()
         mavenCentral()
@@ -13,9 +12,9 @@ buildscript {
     dependencies {
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
-
 
 //mainClassName = "hervalicious.unforgiven.PostBot"
 //
@@ -23,7 +22,7 @@ buildscript {
 //    baseImage "dockerfile/java:oracle-java8"
 //}
 
-subprojects {
+configure(allprojects - project(':android-things-bot')) {
     repositories {
         jcenter()
         mavenCentral()
@@ -34,11 +33,16 @@ subprojects {
 //    task stage {
 //        dependsOn installDist
 //    }
-
     dependencies {
         testCompile group: 'junit', name: 'junit', version: '4.11'
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
 }
 
-
+// Config for the bot experiments
+configure(project(':android-things-bot')) {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
