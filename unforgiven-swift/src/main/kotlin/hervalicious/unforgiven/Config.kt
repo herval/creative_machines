@@ -18,13 +18,13 @@ import java.io.File
  */
 object Config : hervalicious.tumblr.Config(), hervalicious.ai.rnn.Config {
 
-    val rawContent = env.resource("/lyrics.txt").toFile()
+    val rawContent = env.resource("lyrics.txt").toFile()
 
-    override val networkFile = env.resource("/200_neurons.zip").toFile()
+    override val networkFile = env.resource("200_neurons.zip").toFile()
 
     val titleFiles = listOf(
-            env.resource("/metallica_titles.txt").toFile(),
-            env.resource("/taylor_swift_titles.txt").toFile()
+            env.resource("metallica_titles.txt").toFile(),
+            env.resource("taylor_swift_titles.txt").toFile()
     )
 
     val defaultCharacterMap = CharacterMap.minimalCharacterMap

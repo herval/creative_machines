@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'application'
 apply plugin: 'docker'
 apply plugin: 'kotlin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = 'hervalicious.haikuzao.BotRunner'
 

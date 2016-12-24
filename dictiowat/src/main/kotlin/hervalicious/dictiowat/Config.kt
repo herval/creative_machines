@@ -17,9 +17,9 @@ import org.nd4j.linalg.lossfunctions.LossFunctions
  */
 class Config : hervalicious.twitter.Config() {
 
-    val jsonContent = env.resource("/dictionary.json").toFile()
+    val jsonContent = env.resource("dictionary.json").toFile()
 
-    val definitionsNetworkPath = env.resource("/definitions.zip").toFile()
+    val definitionsNetworkPath = env.resource("definitions.zip").toFile()
 
     val definitionsCharacterMap = CharacterMap.defaultCharacterMap
 
@@ -61,7 +61,7 @@ class Config : hervalicious.twitter.Config() {
         return Network(model, characterMap)
     }
 
-    val wordsNetworkPath = env.resource("/words.zip").toFile()
+    val wordsNetworkPath = env.resource("words.zip").toFile()
 
     val wordsCharacterMap = CharacterMap.lettersAndSpacesOnlyCharacterSet
 

@@ -29,7 +29,7 @@ class Env(envFile: File? = File(".env")) {
 
     // load a resource from WORK_DIR (or the resources folder, by default)
     fun resource(name: String): Path {
-        return dataPath?.resolve(name) ?: Paths.get(javaClass.getResource(name).toURI())
+        return dataPath?.resolve(name) ?: Paths.get(javaClass.getResource("/${name}").toURI())
     }
 
     val env: Map<String, String> by lazy {

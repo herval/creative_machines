@@ -20,9 +20,9 @@ import java.nio.file.Paths
  */
 object Config : hervalicious.twitter.Config(), Config {
 
-    val rawContent = env.resource("/haiku.txt").toFile()
+    val rawContent = env.resource("haiku.txt").toFile()
 
-    override val networkFile = env.resource("/200_neurons.zip").toFile()
+    override val networkFile = env.resource("200_neurons.zip").toFile()
 
     val defaultCharacterMap = CharacterMap.minimalCharacterMap
 

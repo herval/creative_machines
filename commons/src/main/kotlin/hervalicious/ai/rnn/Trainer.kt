@@ -1,10 +1,6 @@
 package hervalicious.ai.rnn
 
 import com.google.common.base.Joiner
-import hervalicious.ai.rnn.*
-import java.io.File
-import java.io.IOException
-import java.nio.file.Path
 
 
 /**
@@ -14,9 +10,10 @@ class Trainer(private val network: NetworkManager, private val contentLoader: Lo
     private val trainingSet = contentLoader.iterator(training)
     private val extractor =  Extractor(network)
 
-    // enable when Cuda is installed
-    // CudaEnvironment.getInstance().getConfiguration().allowMultiGPU(true)
-
+    init {
+        // enable when Cuda is installed
+//        CudaEnvironment.getInstance().getConfiguration().allowMultiGPU(true)
+    }
 
     fun run() {
         (0..training.iterations).forEach { i ->
