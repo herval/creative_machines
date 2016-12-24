@@ -2,7 +2,6 @@ package hervalicious.dictiowat
 
 import hervalicious.ai.rnn.CharacterMap
 import hervalicious.ai.rnn.Network
-import hervalicious.util.Config
 import org.deeplearning4j.nn.api.OptimizationAlgorithm
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration
 import org.deeplearning4j.nn.conf.Updater
@@ -12,19 +11,15 @@ import org.deeplearning4j.nn.conf.layers.RnnOutputLayer
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.nd4j.linalg.lossfunctions.LossFunctions
-import java.io.File
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.util.*
 
 /**
  * Created by herval on 10/31/15.
  */
 class Config : hervalicious.twitter.Config() {
 
-    val jsonContent = conf.resource("/dictionary.json").toFile()
+    val jsonContent = env.resource("/dictionary.json").toFile()
 
-    val definitionsNetworkPath = conf.resource("/networks/definitions")
+    val definitionsNetworkPath = env.resource("/definitions.zip").toFile()
 
     val definitionsCharacterMap = CharacterMap.defaultCharacterMap
 
@@ -39,7 +34,7 @@ class Config : hervalicious.twitter.Config() {
                 seed(12345).
                 regularization(true).
                 l1(0.001).
-                list(2).
+                list().
                 layer(0, GravesLSTM.Builder().
                         nIn(characterMap.size()).
                         nOut(layerSize).
@@ -66,8 +61,7 @@ class Config : hervalicious.twitter.Config() {
         return Network(model, characterMap)
     }
 
-    // TODO point to src folder?
-    val wordsNetworkPath = conf.resource("/networks/words")
+    val wordsNetworkPath = env.resource("/words.zip").toFile()
 
     val wordsCharacterMap = CharacterMap.lettersAndSpacesOnlyCharacterSet
 
@@ -82,7 +76,7 @@ class Config : hervalicious.twitter.Config() {
                 seed(12345).
                 regularization(true).
                 l1(0.001).
-                list(3).
+                list().
                 layer(0, GravesLSTM.Builder().
                         nIn(characterMap.size()).
                         nOut(layerSize).

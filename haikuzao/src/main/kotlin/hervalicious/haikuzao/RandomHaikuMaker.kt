@@ -53,7 +53,7 @@ class RandomHaikuMaker(private val extractor: Extractor, private val dictionary:
 
         fun build(c: Config): RandomHaikuMaker {
             val network = NetworkManager.load(
-                    c.networkPath,
+                    c.networkFile,
                     c.defaultCharacterMap
             )
 

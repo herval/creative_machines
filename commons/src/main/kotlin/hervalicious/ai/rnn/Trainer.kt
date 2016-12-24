@@ -14,6 +14,10 @@ class Trainer(private val network: NetworkManager, private val contentLoader: Lo
     private val trainingSet = contentLoader.iterator(training)
     private val extractor =  Extractor(network)
 
+    // enable when Cuda is installed
+    // CudaEnvironment.getInstance().getConfiguration().allowMultiGPU(true)
+
+
     fun run() {
         (0..training.iterations).forEach { i ->
             println("Training epoch " + i)

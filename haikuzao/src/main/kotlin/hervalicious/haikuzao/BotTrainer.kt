@@ -11,8 +11,8 @@ import hervalicious.ai.rnn.TrainingSet
 object BotTrainer {
     @JvmStatic fun main(args: Array<String>) {
         val network = NetworkManager.defaultConfig(
-                Config.networkPath,
-                Config.defaultTopology(Config.defaultCharacterMap)
+                Config.networkFile,
+                Config.defaultTopology
         )
 
         Trainer(

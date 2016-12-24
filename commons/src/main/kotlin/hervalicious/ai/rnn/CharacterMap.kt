@@ -7,7 +7,7 @@ import java.util.*
  *
  * Created by herval on 10/31/15.
  */
-class CharacterMap(private val validCharacters: List<Char>) {
+class CharacterMap(val validCharacters: List<Char>) {
     private val rng = Random()
     private val charToIdxMap = validCharacters.mapIndexed { i, c -> (c to i) }.toMap()
 

@@ -12,17 +12,12 @@ buildscript {
     dependencies {
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:2.2.3'
+//        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
 
-//mainClassName = "hervalicious.unforgiven.PostBot"
-//
-//docker {
-//    baseImage "dockerfile/java:oracle-java8"
-//}
-
-configure(allprojects - project(':android-things-bot')) {
+//configure(allprojects - project(':android-things-bot')) {
+subprojects {
     repositories {
         jcenter()
         mavenCentral()
@@ -30,9 +25,10 @@ configure(allprojects - project(':android-things-bot')) {
 
     apply plugin: 'kotlin'
 
-//    task stage {
-//        dependsOn installDist
-//    }
+    configurations {
+        all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
+    }
+
     dependencies {
         testCompile group: 'junit', name: 'junit', version: '4.11'
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -40,9 +36,9 @@ configure(allprojects - project(':android-things-bot')) {
 }
 
 // Config for the bot experiments
-configure(project(':android-things-bot')) {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-}
+//configure(project(':android-things-bot')) {
+//    repositories {
+//        jcenter()
+//        mavenCentral()
+//    }
+//}

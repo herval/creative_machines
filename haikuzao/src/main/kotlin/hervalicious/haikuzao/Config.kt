@@ -1,8 +1,8 @@
 package hervalicious.haikuzao
 
 import hervalicious.ai.rnn.CharacterMap
+import hervalicious.ai.rnn.Config
 import hervalicious.ai.rnn.Network
-import hervalicious.util.Config
 import org.deeplearning4j.nn.api.OptimizationAlgorithm
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration
 import org.deeplearning4j.nn.conf.Updater
@@ -12,24 +12,23 @@ import org.deeplearning4j.nn.conf.layers.RnnOutputLayer
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.nd4j.linalg.lossfunctions.LossFunctions
-import java.io.File
+import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.*
 
 /**
  * Created by herval on 10/31/15.
  */
-object Config : hervalicious.twitter.Config() {
+object Config : hervalicious.twitter.Config(), Config {
 
-    val rawContent = conf.resource("/haiku.txt").toFile()
+    val rawContent = env.resource("/haiku.txt").toFile()
 
-    val networkPath = conf.resource("/networks/200_neurons")
-
-    val layerSize = 200
+    override val networkFile = env.resource("/200_neurons.zip").toFile()
 
     val defaultCharacterMap = CharacterMap.minimalCharacterMap
 
-    fun defaultTopology(characterMap: CharacterMap = defaultCharacterMap): Network {
+    override val defaultTopology: Network by lazy {
+        val layerSize = 200
+
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
                 iterations(1).
@@ -37,9 +36,9 @@ object Config : hervalicious.twitter.Config() {
                 rmsDecay(0.97).
                 regularization(true).
                 l2(0.001).
-                list(3).
+                list().
                 layer(0, GravesLSTM.Builder().
-                        nIn(characterMap.size()).
+                        nIn(defaultCharacterMap.size()).
                         nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
@@ -58,7 +57,7 @@ object Config : hervalicious.twitter.Config() {
                         activation("softmax"). //MCXENT + softmax for classification
                         updater(Updater.RMSPROP).
                         nIn(layerSize).
-                        nOut(characterMap.size()).
+                        nOut(defaultCharacterMap.size()).
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
@@ -68,6 +67,6 @@ object Config : hervalicious.twitter.Config() {
         val model = MultiLayerNetwork(config.build())
         model.init()
 
-        return Network(model, characterMap)
+        Network(model, defaultCharacterMap)
     }
 }

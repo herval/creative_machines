@@ -1,6 +1,6 @@
 package hervalicious.ai.rnn
 
-import org.deeplearning4j.datasets.iterator.DataSetIterator
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.dataset.api.DataSetPreProcessor
 import org.nd4j.linalg.factory.Nd4j
@@ -157,11 +157,27 @@ class CharacterIterator(
         return numExamplesToFetch
     }
 
+    override fun resetSupported(): Boolean {
+        return false
+    }
+
     override fun setPreProcessor(preProcessor: DataSetPreProcessor) {
-        throw UnsupportedOperationException("Not implemented")
+        // noop
     }
 
     override fun remove() {
         throw UnsupportedOperationException()
+    }
+
+    override fun asyncSupported(): Boolean {
+        return true
+    }
+
+    override fun getLabels(): MutableList<String> {
+        return characterMap.validCharacters.map { it.toString() }.toMutableList()
+    }
+
+    override fun getPreProcessor(): DataSetPreProcessor {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
