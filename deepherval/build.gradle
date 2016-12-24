@@ -1,0 +1,13 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'docker'
+apply plugin: 'kotlin'
+
+mainClassName = 'hervalicious.deepherval.BotRunner'
+
+dependencies {
+    compile project(":commons")
+
+    compile group: "org.apache.commons", name: "commons-csv", version: "1.3"
+}
