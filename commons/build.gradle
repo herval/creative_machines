@@ -6,12 +6,18 @@ dependencies {
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.7.1'
 
     compile group: 'org.bytedeco', name: 'javacpp', version: '1.2'
-    compile group: 'org.nd4j', name: 'nd4j-native-platform', version: '0.7.1'
-    compile group: 'org.nd4j', name: 'nd4j-native', version: '0.7.1'
 
     // these don't work when there's no GPU support
-//    compile group: 'org.nd4j', name: 'nd4j-cuda-7.5-platform', version: '0.7.1'
-//    compile group: 'org.nd4j', name: 'nd4j-cuda-7.5', version: '0.7.1'
+    if (driver == "cuda") {
+        println("Compiling with CUDA support")
+        compile group: 'org.nd4j', name: 'nd4j-cuda-7.5-platform', version: '0.7.1'
+        compile group: 'org.nd4j', name: 'nd4j-cuda-7.5', version: '0.7.1'
+    } else {
+        println("Compiling with Native driver")
+        // disable these when enabling CUDA
+        compile group: 'org.nd4j', name: 'nd4j-native-platform', version: '0.7.1'
+        compile group: 'org.nd4j', name: 'nd4j-native', version: '0.7.1'
+    }
 
     compile group: 'com.tumblr', name: 'jumblr', version: '0.0.6'
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.2'

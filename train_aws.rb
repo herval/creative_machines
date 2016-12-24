@@ -23,7 +23,7 @@ aws_pem = ARGV[4]
 project = jar.split("/")[0]
 
 puts "Building..."
-`gradle #{project}:shadowJar`
+`gradle #{project}:shadowJar -Pdriver=cuda`
 
 
 puts "Uploading trainer + data..."
@@ -33,7 +33,7 @@ puts "Uploading trainer + data..."
 
 puts "Running training..."
 
-`ssh -i #{aws_pem} ec2-user@#{ec2_host} 'LD_LIBRARY_PATH=/usr/local/cuda/lib64 PATH=$PATH:/usr/local/cuda/bin/ WORK_DIR=~ java -cp trainer.jar #{trainer_class}'`
+`ssh -i #{aws_pem} ec2-user@#{ec2_host} 'LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64 PATH=$PATH:/usr/local/cuda/bin/ WORK_DIR=~ java -cp trainer.jar #{trainer_class}'`
 
 puts "Downloading results..."
 

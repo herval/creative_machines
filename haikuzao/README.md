@@ -25,13 +25,8 @@ TWITTER_CONSUMER_TOKEN=token TWITTER_CONSUMER_SECRET=secret TWITTER_ACCESS_TOKEN
 
 We can take advantage of AWS [GPU instances](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/accelerated-computing-instances.html) to train the networks faster:
 
-
-- Uncomment the CUDA dependencies on `build.gradle`
-
-- Rebuild with CUDA support
-
 ```
-gradle haikuzao:shadowJar
+gradle haikuzao:shadowJar -Pdriver=cuda
 ```
 
 - Train on EC2
