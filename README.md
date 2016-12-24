@@ -31,4 +31,3 @@ Giving little physical bodies to AI bots, so they feel more human.
 # TO DO
 
 - Run the bots as a Unikernel
-- AWS-runnable training (to allow using GPU instances for faster training)

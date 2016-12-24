@@ -1,8 +1,12 @@
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
-apply plugin: 'docker'
 apply plugin: 'kotlin'
+apply plugin: 'docker'
+
+docker {
+   baseImage "openjdk:9-jdk"
+}
 
 mainClassName = 'hervalicious.markovian.BotRunner'
 
