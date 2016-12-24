@@ -21,7 +21,7 @@ class Trainer(private val network: NetworkManager, private val contentLoader: Lo
             fit()
 
             println("Sampling: ")
-            println(Joiner.on("\n").join(extractor.sample(training.exampleLength, 1)))
+            println(extractor.sample(training.exampleLength, 1).joinToString("\n"))
             network.save()
         }
 

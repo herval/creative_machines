@@ -33,7 +33,7 @@ class Extractor(network: NetworkManager) {
         //Create input for initialization
         val initializationInput = Nd4j.zeros(numSamples, characterMap.size(), initialization.length)
         for (i in initialization.indices) {
-            val idx = characterMap.indexOf(initialization[i].toChar())
+            val idx = characterMap.indexOf(initialization[i])
             for (j in 0..(numSamples - 1)) {
                 initializationInput.putScalar(intArrayOf(j, idx!!, i), 1.0f)
             }
