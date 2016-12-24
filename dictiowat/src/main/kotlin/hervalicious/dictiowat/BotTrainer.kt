@@ -23,10 +23,10 @@ object BotTrainer {
                             network,
                             StringLoader(dictionary.words, network.characterMap()),
                             TrainingSet(
-                                    iterations = 100,
-                                    batchSize = 5,
+                                    iterations = 1000,
+                                    batchSize = 10,
                                     exampleLength = 50,
-                                    examplesPerIteration = 50
+                                    examplesPerIteration = 500
                             )
 
                     ).run()
@@ -40,10 +40,10 @@ object BotTrainer {
                             network,
                             StringLoader(dictionary.definitions, network.characterMap()),
                             TrainingSet(
-                                    iterations = 100,
-                                    batchSize = 5,
+                                    iterations = 1000,
+                                    batchSize = 10,
                                     exampleLength = 50,
-                                    examplesPerIteration = 300
+                                    examplesPerIteration = 500
                             )
                     ).run()
                 })

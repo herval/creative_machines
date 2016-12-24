@@ -45,7 +45,7 @@ class LyricsWriter(private val titleMaker: TitleMaker, private val inspiredBrain
     companion object {
 
         fun build(config: Config): LyricsWriter {
-            val manager = NetworkManager.load(config.networkPath, config.defaultCharacterMap)
+            val manager = NetworkManager.load(config.networkFile, config.defaultCharacterMap)
 
             return LyricsWriter(
                     TitleMaker(FileLoader(config.titleFiles, CharacterMap.defaultCharacterMap)),

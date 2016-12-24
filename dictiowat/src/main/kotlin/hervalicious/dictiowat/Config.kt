@@ -29,8 +29,8 @@ class Config : hervalicious.twitter.Config() {
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
                 iterations(1).
-                learningRate(0.01).
-                rmsDecay(0.95).
+                learningRate(0.002).
+                rmsDecay(0.97).
                 seed(12345).
                 regularization(true).
                 l1(0.001).
@@ -71,8 +71,8 @@ class Config : hervalicious.twitter.Config() {
         val config = NeuralNetConfiguration.Builder().
                 optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).
                 iterations(1).
-                learningRate(0.02).
-                rmsDecay(0.95).
+                learningRate(0.002).
+                rmsDecay(0.97).
                 seed(12345).
                 regularization(true).
                 l1(0.001).

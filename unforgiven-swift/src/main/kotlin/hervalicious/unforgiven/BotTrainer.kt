@@ -19,7 +19,7 @@ object BotTrainer {
                 network,
                 FileLoader(listOf(Config.rawContent), network.characterMap()),
                 TrainingSet(
-                        iterations = 100,
+                        iterations = 1000,
                         batchSize = 32,
                         exampleLength = 300,
                         examplesPerIteration = 1600
