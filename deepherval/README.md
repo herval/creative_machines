@@ -8,6 +8,14 @@ A RNN generating Tweets based on everything @herval said on Twitter since 2007.
 - Download your [Tweet archive](https://support.twitter.com/articles/20170160) and put the tweets.csv file on resources
 
 
+## Training locally
+
+```
+gradle deepherval:shadowJar
+WORK_DIR=deepherval/src/main/resources java -cp deepherval/build/libs/deepherval-1.0-SNAPSHOT-all.jar hervalicious.deepherval.BotTrainer
+```
+
+
 ## Training on AWS w/ GPUs
 
 ```
