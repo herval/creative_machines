@@ -4,11 +4,12 @@ apply plugin: 'kotlin'
 
 dependencies {
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.7.1'
-
     compile group: 'org.bytedeco', name: 'javacpp', version: '1.2'
 
+    def mode = project.hasProperty("driver") ? project.property("driver") : "native"
+
     // these don't work when there's no GPU support
-    if (driver == "cuda") {
+    if (mode == "cuda") {
         println("Compiling with CUDA support")
         compile group: 'org.nd4j', name: 'nd4j-cuda-7.5-platform', version: '0.7.1'
         compile group: 'org.nd4j', name: 'nd4j-cuda-7.5', version: '0.7.1'
