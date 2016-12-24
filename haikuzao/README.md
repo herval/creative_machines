@@ -28,8 +28,14 @@ We can take advantage of AWS [GPU instances](http://docs.aws.amazon.com/AWSEC2/l
 
 - Uncomment the CUDA dependencies on `build.gradle`
 
+- Rebuild with CUDA support
+
+```
+gradle haikuzao:shadowJar
+```
+
 - Train on EC2
 
 ```
-./train_aws.rb haikuzao/build/libs/haikuzao-1.0-SNAPSHOT-all.jar hervalicious.haikuzao.BotTrainer haikuzao/src/main/resources ec2_host
+./train_aws.rb haikuzao/build/libs/haikuzao-1.0-SNAPSHOT-all.jar hervalicious.haikuzao.BotTrainer haikuzao/src/main/resources ec2_host your_pem.pem
 ```
