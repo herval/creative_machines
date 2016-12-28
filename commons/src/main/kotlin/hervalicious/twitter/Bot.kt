@@ -1,9 +1,14 @@
 package hervalicious.twitter
 
+import hervalicious.util.Logging
+import java.util.logging.Logger
+
 /**
  * Created by herval on 9/27/16.
  */
-class Bot(config: Config, val tweeter: TweetMaker) : Runnable {
+class Bot(config: Config, val tweeter: TweetMaker) : Runnable, Logging {
+    override val logger = Logger.getGlobal()
+
     private val client = Client(config.consumerToken, config.consumerSecret, config.accessToken, config.accessTokenSecret)
     private val sleepInterval = config.sleepInterval
 

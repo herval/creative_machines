@@ -32,13 +32,15 @@ class CharacterMap(val validCharacters: List<Char>) {
     }
 
     companion object {
-        private val lettersOnly = ('a'..'z').toList() + ('A'..'Z').toList()
+        val lettersOnly = ('a'..'z').toList() + ('A'..'Z').toList()
+
+        val letterOnlyCharacterSet = CharacterMap(lettersOnly)
 
         private val minimalCharacterSet = lettersOnly +
                 ('0'..'9').toList() +
                 listOf('!', '&', '(', ')', '?', '-', '\'', '"', ',', '.', ':', ';', ' ', '\n', '\t')
 
-        // a-Z
+        // a-Z + space
         val lettersAndSpacesOnlyCharacterSet = CharacterMap(lettersOnly + listOf(' '))
 
         /**

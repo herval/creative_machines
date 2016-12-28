@@ -1,6 +1,7 @@
 package hervalicious.ai.rnn
 
 import org.apache.commons.io.FileUtils
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
 import java.io.File
 
 /**
@@ -12,7 +13,7 @@ class FileLoader(files: List<File>, private val characterMap: CharacterMap) : Lo
 
     val contents = files.flatMap { f -> FileUtils.readLines(f) }
 
-    override fun iterator(trainingSet: TrainingSet): CharacterIterator {
+    override fun iterator(trainingSet: TrainingSet): DataSetIterator {
         return CharacterIterator(
                 contents,
                 trainingSet.batchSize,
