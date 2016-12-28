@@ -35,7 +35,7 @@ object Config : hervalicious.twitter.Config(), hervalicious.ai.rnn.Config {
                 l2(0.001).
                 list().
                 layer(0, GravesLSTM.Builder().
-                        nIn(defaultCharacterMap.size()).
+                        nIn(140). // TODO const
                         nOut(layerSize).
                         updater(Updater.RMSPROP).
                         activation("tanh").
@@ -54,7 +54,7 @@ object Config : hervalicious.twitter.Config(), hervalicious.ai.rnn.Config {
                         activation("softmax"). //MCXENT + softmax for classification
                         updater(Updater.RMSPROP).
                         nIn(layerSize).
-                        nOut(defaultCharacterMap.size()).
+                        nOut(140). // TODO const
                         weightInit(WeightInit.DISTRIBUTION).
                         dist(UniformDistribution(-0.08, 0.08)).
                         build()).
