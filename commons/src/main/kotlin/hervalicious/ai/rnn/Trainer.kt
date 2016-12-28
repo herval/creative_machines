@@ -1,14 +1,19 @@
 package hervalicious.ai.rnn
 
-import com.google.common.base.Joiner
-
+import hervalicious.util.Logging
+import java.util.logging.Logger
 
 /**
  * Created by herval on 3/28/16.
  */
-class Trainer(private val network: NetworkManager, private val contentLoader: Loader, val training: TrainingSet = TrainingSet()) {
+class Trainer(private val network: NetworkManager,
+              private val contentLoader: Loader,
+              val training: TrainingSet = TrainingSet(),
+              val extractor: Extractor = CharacterMapExtractor(network)
+) : Logging {
+    override val logger = Logger.getGlobal()
+
     private val trainingSet = contentLoader.iterator(training)
-    private val extractor =  Extractor(network)
 
     init {
         // enable when Cuda is installed
